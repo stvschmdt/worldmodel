@@ -36,6 +36,10 @@ boxes as milestones are completed.
   (2000 train / 200 val × T=64 per layout, ~1 min) + `figures/06_dataset_*.png`.
 - `wm/data.py` — `load()` puts a split on the GPU; `sample_clips(d, B, L)` samples
   batches there (L=1 single frames; L>1 clips with the L-1 actions between them).
+- `wm/viz.py` — `episode_frames()` / `save_gif()`: annotated episode GIFs (trace,
+  action arrow, red border on wall hits); reuse for model rollouts.
+- `scripts/watch_episode.py` — stored episode → `runs/episodes/*.gif`
+  (`--index`, `--pick random|bumpiest|farthest`, `-n`, `--fps`).
 
 ## Status (2026-09-28)
 Module 0 in progress. Done: env, project skeleton, PointMaze-lite, visual tour,
