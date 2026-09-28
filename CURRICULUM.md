@@ -22,7 +22,8 @@ session ends with one experiment and one figure.
 - [x] Project skeleton + git repo at `~/proj/worldmodel`
 - [x] PointMaze-lite env + visual tour (`python scripts/show_pointmaze.py`)
 - [x] VS Code Remote-SSH into the Spark; Claude Code running there
-- [ ] Dataset collection script: random trajectories `(obs_t, a_t, obs_t+1, pos_t)` saved to disk
+- [x] Dataset collection script: random trajectories `(obs_t, a_t, obs_t+1, pos_t)` saved to disk
+  (`scripts/collect_data.py` → `data/{layout}_{split}.npz`; GPU-resident loader `wm/data.py`)
 - [ ] TensorBoard with port forwarding
 - **Concepts:** generative vs. joint-embedding world models; why predict in latent
   space; context encoder / target encoder / predictor.
@@ -92,6 +93,24 @@ session ends with one experiment and one figure.
 - **B.** Hierarchical JEPA: a slower latent level for long-horizon planning.
 - **C.** Policy learned purely in imagination (Dreamer-style, JEPA latent space).
 - **D.** Write-up of your ablation findings.
+
+## Running track — real-world training pipelines
+Woven through the modules: each practice is introduced where it first earns its
+keep, in the small version, alongside what it looks like at scale.
+
+| Where | Practice | At our scale → at real scale |
+|---|---|---|
+| M0 | Reproducible data: seeds per shard, `meta.json`, sanity figures | `.npz` in RAM → sharded WebDataset / Parquet / zarr, streamed |
+| M0 | Data loading | whole dataset on GPU → DataLoader workers, pinned memory, prefetch |
+| M1 | Config system + run directories (config, git hash, seed saved per run) | dataclass → Hydra / YAML configs |
+| M1 | Logging and metrics: loss, grad norm, LR, throughput, embedding stats | TensorBoard → W&B / MLflow |
+| M1 | Checkpoint + resume (model, optimizer, EMA, RNG state, step) | local files → fault-tolerant, preemptible jobs |
+| M1 | Optimization hygiene: AdamW, warmup + cosine, grad clipping, weight decay rules | same, plus µP / LR scaling rules |
+| M1 | Speed: bf16 autocast, `torch.compile`, measuring samples/s and MFU | same, plus `torch.profiler` bottleneck hunts |
+| M2 | Sweeps and ablation discipline: several seeds, error bars, one change at a time | loops → sweep schedulers |
+| M4 | Eval harness separate from training; fixed val sets; regression checks | same, run by CI on checkpoints |
+| M5 | Multi-task loss balancing; monitoring per-head gradients | same |
+| M8 | Scaling out: DDP / FSDP, gradient accumulation (concepts; one GPU here) | multi-node clusters |
 
 ---
 

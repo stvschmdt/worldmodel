@@ -32,13 +32,22 @@ boxes as milestones are completed.
   `max_step`, wall sliding on collision, 64×64 RGB render with anti-aliased agent
   (encodes sub-pixel position). `collect_trajectory` uses smoothed random actions.
 - `scripts/show_pointmaze.py` — visual tour → `figures/01..05`.
+- `scripts/collect_data.py` — random trajectories → `data/{layout}_{split}.npz`
+  (2000 train / 200 val × T=64 per layout, ~1 min) + `figures/06_dataset_*.png`.
+- `wm/data.py` — `load()` puts a split on the GPU; `sample_clips(d, B, L)` samples
+  batches there (L=1 single frames; L>1 clips with the L-1 actions between them).
 
 ## Status (2026-09-28)
-Module 0 in progress. Done: env, project skeleton, PointMaze-lite, visual tour.
-Next: dataset collection script (obs, actions, pos → `data/`), TensorBoard with
+Module 0 in progress. Done: env, project skeleton, PointMaze-lite, visual tour,
+dataset + loader. Next: walk the user through the data script, TensorBoard with
 port forwarding, then Module 1 (I-JEPA on still frames + linear (x, y) probe).
 Known data property: random policy over-visits corners and under-visits doorways
-(see `figures/04_coverage.png`) — relevant in Modules 6–7.
+(see `figures/04_coverage.png`) — relevant in Modules 6–7. ~50% of four_rooms
+steps collide (random walks hug walls), ~12% are fully stuck.
+The user also wants to learn real-world training-pipeline practices — see the
+running track in CURRICULUM.md; teach each where it first earns its keep.
+Activate the env in scripts with `eval "$(conda shell.bash hook)" && conda activate wm`
+(miniforge3).
 
 Git: repo-local identity (stvschmdt / quantdata@gmail.com); remote `origin` =
 github.com:stvschmdt/worldmodel (SSH). Push at the end of each session.

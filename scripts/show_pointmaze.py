@@ -145,7 +145,7 @@ def gif_rollout(obs):
 if __name__ == "__main__":
     rng = np.random.default_rng(0)
     env = PointMaze(PointMazeConfig(layout="four_rooms"), seed=3)
-    obs, actions, pos = collect_trajectory(env, T=120)
+    obs, actions, pos, _ = collect_trajectory(env, T=120)
     print(f"obs {obs.shape} {obs.dtype}, actions {actions.shape}, pos {pos.shape}")
 
     fig_layouts()

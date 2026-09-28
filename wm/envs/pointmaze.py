@@ -136,12 +136,17 @@ def random_actions(n, rng, smooth=0.8, scale=0.6):
 
 
 def collect_trajectory(env: PointMaze, T: int, rng=None):
-    """Roll out a random policy. Returns obs (T+1, H, W, 3), actions (T, 2), pos (T+1, 2)."""
+    """Roll out a random policy.
+
+    Returns obs (T+1, H, W, 3) uint8, actions (T, 2), pos (T+1, 2), collided (T,) bool,
+    where collided[t] says whether actions[t] ran into a wall.
+    """
     rng = env.rng if rng is None else rng
-    obs, pos = [env.reset()], [env.pos.copy()]
+    obs, pos, collided = [env.reset()], [env.pos.copy()], []
     actions = random_actions(T, rng)
     for a in actions:
         o, info = env.step(a)
         obs.append(o)
         pos.append(info["pos"])
-    return np.stack(obs), actions, np.stack(pos)
+        collided.append(info["collided"])
+    return np.stack(obs), actions, np.stack(pos), np.array(collided)
