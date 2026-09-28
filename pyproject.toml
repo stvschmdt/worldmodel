@@ -3,6 +3,17 @@ name = "wm"
 version = "0.1.0"
 description = "JEPA world models, built from scratch as a short course"
 requires-python = ">=3.11"
+dependencies = [
+    "numpy>=2.0",
+    "matplotlib>=3.8",
+    "imageio>=2.30",
+    "pillow>=10",
+]
+
+[project.optional-dependencies]
+# Training needs PyTorch; install it separately first (the right build differs per
+# machine: CUDA on the Spark, CPU/MPS on a Mac), then `pip install -e ".[train]"`.
+train = ["torch>=2.4", "tensorboard>=2.15"]
 
 [build-system]
 requires = ["setuptools>=61"]
