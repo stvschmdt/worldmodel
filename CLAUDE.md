@@ -40,5 +40,5 @@ port forwarding, then Module 1 (I-JEPA on still frames + linear (x, y) probe).
 Known data property: random policy over-visits corners and under-visits doorways
 (see `figures/04_coverage.png`) — relevant in Modules 6–7.
 
-Git identity is not configured on the Spark yet; the user needs to set it before
-the first commit.
+Git: repo-local identity set (stvschmdt / quantdata@gmail.com); no remote yet —
+user may push to their GitHub later (`gh` not logged in).
