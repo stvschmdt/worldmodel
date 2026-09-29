@@ -36,7 +36,11 @@ session ends with one experiment and one figure.
 - **Experiments:** (1) remove EMA → watch collapse (embedding std, effective rank);
   (2) EMA momentum sweep + schedules; (3) masking: random vs. block, mask ratio.
 - **Head #1:** frozen **linear probe** → agent (x, y). Our representation-quality meter.
-- **Checkpoint:** probe R² > 0.9, and a collapse plot.
+- **Checkpoint:** a collapse plot, and probe scores reported next to baselines.
+  Raw pixels already give R² ≈ 1.0 for position (the agent is a constant disk, so
+  pixels form a place-cell code; `figures/07`), and a random 256-d projection gives
+  0.93. So "R² > 0.9" proves nothing; the bar is beating a random projection of
+  the same dimension.
 
 ## Module 2 — Anti-collapse, the other way
 - **Build:** single-encoder regularizers: **VICReg**, **SIGReg** (LeJEPA).
@@ -58,6 +62,9 @@ session ends with one experiment and one figure.
   training vs. frozen encoder; frame-stack vs. recurrent vs. transformer history.
 - **Experiments:** error vs. rollout horizon (1 → 50) per variant.
 - **Checkpoint:** 20-step latent rollouts that decode to correct agent positions.
+  Baseline to beat: a linear probe on (frame t, next 10 actions) predicts position
+  at t+10 with R² 0.94 (`figures/08`). Its errors are all at walls (it predicts
+  the agent passing through them), so beating it means the model learned walls.
 
 ## Module 5 — A zoo of heads
 | Head | Task | Teaches |
