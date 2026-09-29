@@ -27,7 +27,12 @@ session ends with one experiment and one figure.
 - [ ] TensorBoard with port forwarding
 - **Concepts:** generative vs. joint-embedding world models; why predict in latent
   space; context encoder / target encoder / predictor.
-- **Checkpoint:** explain why a naive JEPA collapses to a constant.
+- [x] **Checkpoint:** explain why a naive JEPA collapses to a constant.
+  *Your answer:* both the predictor and its targets are learned, so the encoders
+  can game the loss by mapping every input to the same vector: prediction becomes
+  trivially perfect (loss 0) and the embedding carries no information. Different
+  from shortcut learning (embedding learns the static walls, skips the agent).
+  In both, the loss looks fine, and only the probe notices.
 
 ## Module 1 — First JEPA on still images (I-JEPA style)
 - **Build:** small ViT encoder (8×8 patches → 64 tokens), predictor, block masking
