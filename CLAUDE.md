@@ -19,7 +19,7 @@ boxes as milestones are completed.
 ## Environment
 - Machine: DGX Spark `spark-dc2e` (NVIDIA GB10, sm_121, ~119 GB unified memory,
   aarch64, Ubuntu 24.04). The user edits from a Mac (8 GB RAM) via VS Code
-  Remote-SSH — never run training on the Mac.
+  Remote-SSH. Everything runs on the Spark — no Mac env, no Mac instructions.
 - Python: `conda activate wm` (Python 3.12, PyTorch 2.14+cu130, bf16 ≈ 99 TFLOPS).
   The env sets `PYTHONNOUSERSITE=1` so `~/.local` packages don't leak in.
   Don't install into the `base` or `ml` envs; those belong to other projects.
